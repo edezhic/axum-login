@@ -29,8 +29,8 @@ sqlx = ["sqlx/runtime-tokio-rustls"]
 
 [dependencies]
 async-trait = "0.1.57"
-axum = "0.6"
-axum-sessions = "0.5"
+axum = { git = "https://github.com/tokio-rs/axum" }
+axum-sessions = { git = "https://github.com/edezhic/axum-sessions" }
 percent-encoding = "2.2"
 base64 = "0.13"
 futures = "0.3"
