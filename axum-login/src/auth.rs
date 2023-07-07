@@ -117,10 +117,12 @@ where
 
         let mut inner = std::mem::replace(&mut self.inner, inner);
         Box::pin(async move {
-            let Extension(session_handle): Extension<SessionHandle> = request
-                .extract_parts()
-                .await
-                .expect("Session extension missing. Is the session layer installed?");
+            let (mut parts, body) = request.into_parts();
+            let Extension(session_handle) =
+                Extension::<SessionHandle>::from_request_parts(&mut parts, &())
+                    .await
+                    .expect("Session extension missing. Is the session layer installed?");
+            let mut request = http::Request::from_parts(parts, body);
 
             let mut auth_cx = AuthContext::new(session_handle, state.store, state.key);
             match auth_cx.get_user().await {
