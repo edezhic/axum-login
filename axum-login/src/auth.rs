@@ -118,6 +118,7 @@ where
         let mut inner = std::mem::replace(&mut self.inner, inner);
         Box::pin(async move {
             let (mut parts, body) = request.into_parts();
+            use axum::extract::FromRequestParts;
             let Extension(session_handle) =
                 Extension::<SessionHandle>::from_request_parts(&mut parts, &())
                     .await
